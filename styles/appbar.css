@@ -1,0 +1,73 @@
+.appbar__container {
+  position: static;
+  background-color: #fff;
+  box-shadow: 1px 1px 2px 2px #2f2f2f2d;
+  display: flex;
+  padding: 1rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appbar__buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.appbar__buttons a {
+  background-color: #000;
+  color: white;
+  padding: 0.5rem 0.7rem;
+  border-radius: 3px;
+}
+
+.hamburger__menu div {
+  width: 30px;
+  height: 3px;
+  background-color: black;
+  margin: 6px 0;
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .appbar__container {
+    padding: 0.7rem 0.3rem;
+  }
+
+  .appbar__container h1 {
+    font-size: 1.4rem;
+  }
+
+  .appbar__buttons {
+    flex-direction: column;
+    display: none;
+    transform: translateX(100%);
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #f1f1f1;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .appbar__buttons.active {
+    display: flex;
+    transform: translateX(0%);
+  }
+
+  .appbar__buttons a {
+    padding: 0.5rem;
+  }
+
+  .hamburger__menu div {
+    display: block;
+  }
+  .hamburger__menu.active {
+    position: fixed;
+    top: 0px;
+    right: 40%;
+    margin: 6px 0;
+  }
+}

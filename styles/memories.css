@@ -1,0 +1,65 @@
+.memories__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+  height: 90vh;
+  width: 100vw;
+  padding: 1rem;
+  gap: 3rem;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.memories__container > div {
+  height: fit-content;
+  width: fit-content;
+  background-color: #fff;
+  box-shadow: 1px 1px 3px 3px #00000010;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 9px;
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.memories__container img {
+  height: 250px;
+  width: 300px;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  filter: brightness(75%);
+}
+
+.memories__container span {
+  padding: 0 1rem;
+}
+
+.memories__title {
+  font-size: 1.4rem;
+}
+
+.memories__description {
+  font-size: 1.2rem;
+  color: #666666;
+}
+
+.memories__likes {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1rem;
+  color: #666666;
+}
+
+.memories__options {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  cursor: pointer;
+  z-index: 1;
+  letter-spacing: 2px;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: bolder;
+}

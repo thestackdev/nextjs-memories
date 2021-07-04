@@ -1,0 +1,90 @@
+button,
+input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.input__container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+.input__container input {
+  width: 90%;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+}
+
+.icon {
+  height: 23px !important;
+  width: 23px !important;
+}
+
+.icon.button {
+  cursor: pointer;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button__green {
+  background-color: #008000d5;
+}
+
+.button__red {
+  background-color: #ff0000cc;
+}
+
+.button__black {
+  background-color: #000000e1;
+}
+
+.error {
+  width: 100%;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #ff0000;
+  font-size: 1.2rem;
+  margin: -0.7rem 0;
+}
+
+@media screen and (max-width: 700px) {
+  .input__container {
+    gap: 0.5rem;
+    padding: 0.9rem 0.5rem;
+  }
+
+  .input__container input {
+    width: 90%;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .icon {
+    height: 18px !important;
+    width: 18px !important;
+  }
+
+  .icon.button {
+    cursor: pointer;
+  }
+
+  .error {
+    font-size: 1rem;
+  }
+
+  .sign__header {
+    margin-bottom: 2rem;
+  }
+}

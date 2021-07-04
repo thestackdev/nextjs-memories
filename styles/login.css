@@ -1,0 +1,21 @@
+.login__container {
+  display: flex;
+  width: fit-content;
+  background-color: #fff;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: center;
+  padding: 2rem;
+  margin-top: 3rem;
+  gap: 2rem;
+  border-radius: 5px;
+  position: relative;
+}
+
+@media screen and (max-width: 700px) {
+  .login__container {
+    padding: 1rem;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+}
