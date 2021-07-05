@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { payload, toggle } from 'redux/utils'
+import moment from 'moment'
 
 const Memories = () => {
   const dispatch = useDispatch()
@@ -25,10 +26,12 @@ const Memories = () => {
           <img src={memory.image} />
           <span className="memories__title">{memory.title}</span>
           <span className="memories__description">{memory.description}</span>
-          <span className="memories__likes">
-            <img className="icon" src="/icons/thumsup.svg" /> {memory.likes}
-            {'  '}
-            Likes
+          <span className="memories__footer">
+            <span>
+              <img className="icon" src="/icons/thumsup.svg" />
+              <span>{memory.likes}</span>
+            </span>
+            <span>{moment(memory.updatedAt).fromNow()}</span>
           </span>
         </div>
       ))}

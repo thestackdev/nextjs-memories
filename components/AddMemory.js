@@ -55,7 +55,14 @@ const AddMemory = () => {
       } else {
         const response = await postMemories(payload, auth.token)
         if (response.success) {
-          dispatch(addMemory({ ...payload, likes: 0, _id: response.data }))
+          dispatch(
+            addMemory({
+              ...payload,
+              likes: 0,
+              _id: response.data,
+              user: auth.user._id,
+            })
+          )
           closeModal()
         }
       }

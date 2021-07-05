@@ -44,12 +44,18 @@
   color: #666666;
 }
 
-.memories__likes {
+.memories__footer {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  justify-content: space-between;
   font-size: 1rem;
   color: #666666;
+  width: 100%;
+}
+
+.memories__footer > span {
+  display: flex;
+  align-items: center;
 }
 
 .memories__options {
