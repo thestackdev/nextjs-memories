@@ -5,19 +5,15 @@ const slice = createSlice({
   initialState: { memories: [] },
   reducers: {
     initMemory: (state, action) => {
+      state.memories = []
       action.payload.forEach((element) => {
         state.memories.push(element)
       })
     },
-    clearMemory: (state, action) => {
-      state.memories = state.memories.filter(
-        (mem) => mem._id !== action.payload
-      )
-    },
     addMemory: (state, action) => {
       state.memories.push(action.payload)
     },
-    delMemory: (state, action) => {
+    removeMemory: (state, action) => {
       state.memories = state.memories.filter(
         (mem) => mem._id !== action.payload
       )
@@ -34,6 +30,6 @@ const slice = createSlice({
   },
 })
 
-export const { addMemory, delMemory, updateMemory, clearMemory, initMemory } =
+export const { addMemory, removeMemory, updateMemory, clearMemory, initMemory } =
   slice.actions
 export default slice.reducer

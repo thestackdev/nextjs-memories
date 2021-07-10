@@ -1,8 +1,8 @@
-import Appbar from 'components/Appbar'
-import AddMemory from 'components/AddMemory'
 import { Provider } from 'react-redux'
+import Appbar from 'components/Appbar'
 import store from 'redux/store'
 import 'styles/globals.css'
+import 'styles/app.css'
 import 'styles/utils.css'
 import 'styles/home.css'
 import 'styles/appbar.css'
@@ -10,14 +10,16 @@ import 'styles/loading.css'
 import 'styles/login.css'
 import 'styles/register.css'
 import 'styles/memories.css'
-import 'styles/addmemory.css'
+import 'styles/modal.css'
 
-const App = ({ Component, ...pageProps }) => {
+const App = ({ Component }) => {
   return (
-    <Provider store={store}>
-      <Appbar />
-      <Component {...pageProps} />
-    </Provider>
+    <div className="app__container">
+      <Provider store={store}>
+        <Appbar />
+        <Component />
+      </Provider>
+    </div>
   )
 }
 export default App

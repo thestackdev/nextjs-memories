@@ -1,15 +1,20 @@
 .login__container {
   display: flex;
+  height: fit-content;
   width: fit-content;
   background-color: #fff;
   flex-direction: column;
   margin: 0 auto;
   justify-content: center;
+  align-items: center;
   padding: 2rem;
   margin-top: 3rem;
   gap: 2rem;
   border-radius: 5px;
-  position: relative;
+}
+
+.login__container button {
+  margin-left: auto;
 }
 
 @media screen and (max-width: 700px) {

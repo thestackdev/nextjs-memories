@@ -2,23 +2,28 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const slice = createSlice({
   name: 'utils',
-  initialState: { active: false, type: 'New', payload: {} },
+  initialState: {
+    modal: false,
+    payload: undefined,
+    loading: true,
+  },
   reducers: {
-    openModal: (state, action) => {
-      state.active = true
+    setLoading: (state, action) => {
+      state.loading = true
     },
-    closeModal: (state, action) => {
-      state.active = true
+    delLoading: (state, action) => {
+      state.loading = false
     },
-    toggle: (state, action) => {
-      state.active = !state.active
+    setModal: (state, action) => {
+      state.modal = true
+      state.payload = action.payload
     },
-    payload: (state, action) => {
-      state.type = action.payload.type
-      state.payload = action.payload?.payload
+    delModal: (state, action) => {
+      state.modal = false
+      state.payload = undefined
     },
   },
 })
 
-export const { openModal, closeModal, toggle, payload } = slice.actions
+export const { setModal, delModal, setLoading, delLoading } = slice.actions
 export default slice.reducer

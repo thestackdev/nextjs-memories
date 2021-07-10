@@ -11,7 +11,7 @@ input {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border: 2px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
 }
 
@@ -24,18 +24,16 @@ input {
 .icon {
   height: 23px !important;
   width: 23px !important;
-}
-
-.icon.button {
   cursor: pointer;
 }
 
 .button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 1.2rem;
   color: white;
   border-radius: 5px;
   cursor: pointer;
+  width: fit-content;
 }
 
 .button__green {
@@ -86,5 +84,10 @@ input {
 
   .sign__header {
     margin-bottom: 2rem;
+  }
+
+  .button {
+    padding: 0.3rem 0.5rem;
+    font-size: 1rem;
   }
 }

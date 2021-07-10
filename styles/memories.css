@@ -7,6 +7,7 @@
   gap: 3rem;
   overflow: scroll;
   scrollbar-width: none;
+  justify-content: center;
 }
 
 .memories__container > div {
@@ -61,11 +62,11 @@
 .memories__options {
   position: absolute;
   top: 0px;
-  right: 3px;
+  right: 9px;
   cursor: pointer;
-  z-index: 1;
   letter-spacing: 2px;
   color: white;
   font-size: 1.6rem;
   font-weight: bolder;
+  z-index: 1;
 }

@@ -1,0 +1,6 @@
+.app__container {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: 0.1fr 2fr;
+}

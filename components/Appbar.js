@@ -1,64 +1,83 @@
-import router from 'next/router'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { delUser } from 'redux/auth'
-import { payload, toggle } from 'redux/utils'
-import Link from 'next/link'
+import { setLoading, delLoading, setModal } from 'redux/utils'
+import Loading from 'components/Loading'
 
 const Appbar = () => {
-  const auth = useSelector((state) => state.auth)
+  const { utils, auth } = useSelector((state) => state)
   const dispatch = useDispatch()
-  const [mount, setmount] = useState(false)
-  const [hamburger, sethamburger] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
-    setmount(true)
+    const handleRouteChangeStart = () => dispatch(setLoading())
+    const handleRouteChangeComplete = () => dispatch(delLoading())
+
+    router.events.on('routeChangeStart', handleRouteChangeStart)
+    router.events.on('routeChangeComplete', handleRouteChangeComplete)
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart)
+      router.events.off('routeChangeComplete', handleRouteChangeComplete)
+    }
   }, [])
 
   useEffect(() => {
-    if (auth.token) router.replace('/')
+    if (auth.token) {
+      if (router.pathname === '/login' || router.pathname === '/register') {
+        router.replace('/memories')
+      } else router.replace('/memories')
+    } else router.replace('/memories')
   }, [auth.token])
 
-  const logout = () => {
-    dispatch(delUser())
-  }
+  const logout = () => dispatch(delUser())
 
-  const add = () => {
-    dispatch(toggle())
-    dispatch(payload({ type: 'New' }))
-  }
+  const add = () => dispatch(setModal())
 
-  if (mount) {
-    return (
-      <div className="appbar__container">
-        <h1>Memories</h1>
-        <div
-          className={`hamburger__menu ${hamburger && 'active'}`}
-          onClick={() => sethamburger(!hamburger)}
-        >
-          <div></div>
-          <div></div>
-          <div></div>
+  const AppbarButtons = () => {
+    if (auth.token) {
+      return (
+        <div className="appbar__buttons">
+          <button className="button button__green" onClick={add}>
+            Add
+          </button>
+          <button className="button button__red" onClick={logout}>
+            Logout
+          </button>
         </div>
-        {auth.token ? (
-          <div className={`appbar__buttons ${hamburger && 'active'}`}>
-            <span>{auth.user.username}</span>
-            <button className="button button__green" onClick={add}>
-              Add
+      )
+    } else {
+      return (
+        <div className="appbar__buttons">
+          {router.pathname === '/login' ? (
+            <button
+              className="button button__black"
+              onClick={() => router.push('/register')}
+            >
+              Register
             </button>
-            <button className="button button__red" onClick={logout}>
-              Logout
+          ) : (
+            <button
+              className="button button__black"
+              onClick={() => router.push('/login')}
+            >
+              Login
             </button>
-          </div>
-        ) : (
-          <div className={`appbar__buttons ${hamburger && 'active'}`}>
-            <Link href="/auth/register">Signup</Link>
-            <Link href="/auth/login">Signin</Link>
-          </div>
-        )}
-      </div>
-    )
-  } else return null
+          )}
+        </div>
+      )
+    }
+  }
+
+  if (utils.loading) return <Loading />
+
+  return (
+    <div className="appbar__container">
+      <h1>Memories</h1>
+      <AppbarButtons />
+    </div>
+  )
 }
 
 export default Appbar

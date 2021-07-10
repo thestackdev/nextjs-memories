@@ -1,25 +1,17 @@
 import { useRef, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { register } from 'utils/axios'
-import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { register } from 'utils/axiosAuth'
 import { setUser } from 'redux/auth'
-import Loading from 'components/Loading'
+import { delLoading, setLoading } from 'redux/utils'
 
 const Register = () => {
   const userRef = useRef('')
   const emailRef = useRef('')
   const passwordRef = useRef('')
   const _passwordRef = useRef('')
-  const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const [showpassword, setshowpassword] = useState(false)
-  const [loading, setloading] = useState(false)
   const [error, seterror] = useState('')
-
-  useEffect(() => {
-    if (auth.token) router.replace('/')
-    else setloading(false)
-  }, [])
 
   const checkPasswords = () => {
     return passwordRef.current.value === _passwordRef.current.value
@@ -28,19 +20,19 @@ const Register = () => {
   const onSubmit = async (event) => {
     event.preventDefault()
     if (checkPasswords()) {
+      dispatch(setLoading())
       const payload = {
         username: userRef.current.value,
         email: emailRef.current.value,
         password: passwordRef.current.value,
       }
-      setloading(true)
       const response = await register(payload)
       if (response.success) {
         dispatch(setUser(response.success))
       } else {
-        setloading(false)
         seterror(response)
       }
+      dispatch(delLoading())
     } else {
       seterror(`Passwords did't match`)
     }
@@ -49,8 +41,6 @@ const Register = () => {
   const handleshowpassword = () => {
     setshowpassword(!showpassword)
   }
-
-  if (loading) return <Loading />
 
   return (
     <form onSubmit={onSubmit} className="register__container">
