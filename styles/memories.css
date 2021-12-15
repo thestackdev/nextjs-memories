@@ -13,7 +13,6 @@
 .memories__container > div {
   height: fit-content;
   width: fit-content;
-  background-color: #fff;
   box-shadow: 1px 1px 3px 3px #00000010;
   display: flex;
   justify-content: center;

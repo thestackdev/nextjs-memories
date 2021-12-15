@@ -1,26 +1,37 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getMemory } from 'utils/axiosMemory'
-import { initMemory } from 'redux/memory'
-import { setModal } from 'redux/utils'
-import { delUser } from 'redux/auth'
-import Modal from 'components/Modal'
-import moment from 'moment'
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { initMemory } from "redux/memory";
+import { setModal } from "redux/utils";
+import Modal from "components/Modal";
+import moment from "moment";
+import axios from "axios";
+import Loading from "components/Loading";
+
+const BASE_URL = process.env.BASE_URL + "/";
 
 const Memories = () => {
-  const dispatch = useDispatch()
-  const { memory, auth, utils } = useSelector((state) => state)
+  const dispatch = useDispatch();
+  const { memory, auth, utils } = useSelector((state) => state);
+  const [loading, setLoading] = useState(false);
 
-  const options = (memory) => dispatch(setModal(memory))
+  const options = (memory) => dispatch(setModal(memory));
+
+  const fetchMemories = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(BASE_URL);
+      dispatch(initMemory(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const func = async () => {
-      const response = await getMemory()
-      if (response.data) dispatch(initMemory(response.data))
-      else dispatch(delUser())
-    }
-    func()
-  }, [])
+    fetchMemories();
+  }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -50,6 +61,6 @@ const Memories = () => {
         ))}
       </div>
     </>
-  )
-}
-export default Memories
+  );
+};
+export default Memories;

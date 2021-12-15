@@ -1,15 +1,8 @@
 .appbar__container {
-  background-color: #fff;
-  box-shadow: 1px 1px 2px 2px #2f2f2f2d;
   display: flex;
   padding: 1rem 1.5rem;
   justify-content: space-between;
-}
-
-.appbar__buttons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 @media screen and (max-width: 700px) {
@@ -19,9 +12,5 @@
 
   .appbar__container h1 {
     font-size: 1.4rem;
-  }
-
-  .appbar__buttons {
-    gap: 0.5rem;
   }
 }
