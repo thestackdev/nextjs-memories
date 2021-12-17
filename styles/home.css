@@ -1,0 +1,8 @@
+.home-span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #455a64;
+}

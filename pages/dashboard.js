@@ -31,6 +31,8 @@ const Memories = () => {
     fetchMemories();
   }, []);
 
+  if (auth.user === null) return <></>;
+
   if (loading) return <Loading />;
 
   return (

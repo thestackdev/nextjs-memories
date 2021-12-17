@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
 * {
   margin: 0;
@@ -7,8 +7,13 @@
 }
 
 body {
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Nunito", sans-serif;
   height: 100vh;
   width: 100vw;
-  /* overflow: hidden; */
+  background-color: #eceff1;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
 }

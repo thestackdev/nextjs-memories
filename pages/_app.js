@@ -11,6 +11,7 @@ import "styles/login.css";
 import "styles/register.css";
 import "styles/memories.css";
 import "styles/modal.css";
+import "styles/loading-button.css";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;

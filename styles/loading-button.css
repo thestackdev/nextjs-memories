@@ -1,0 +1,26 @@
+.loading__button {
+  display: flex;
+  height: max-content;
+  width: max-content;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading__button span {
+  border: 3px solid transparent;
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+  height: 21px;
+  width: 21px;
+  border-radius: 50%;
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

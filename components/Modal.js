@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMemory, removeMemory, updateMemory } from "redux/memory";
 import { delModal } from "redux/utils";
+import LoadingButton from "components/LoadingButton";
 import axios from "axios";
 
 const BASE_URL = process.env.BASE_URL + "/";
@@ -14,6 +15,11 @@ const Modal = () => {
   const [description, setdescription] = useState("");
   const [image, setimage] = useState("");
   const [submit, setsubmit] = useState("");
+  const [loading, setLoading] = useState({
+    delete: false,
+    create: false,
+    update: false,
+  });
   const modalRef = useRef();
 
   useEffect(() => {
@@ -35,59 +41,70 @@ const Modal = () => {
 
   const closeModal = () => dispatch(delModal());
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-
-    if (submit === "add") {
-      if (utils.payload) {
-        const payload = { title, description, image };
-        try {
-          await axios.patch(BASE_URL + utils.payload._id, payload);
-          dispatch(updateMemory({ _id: utils.payload._id, payload }));
-          closeModal();
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        try {
-          const response = await axios.post(BASE_URL, payload);
-          dispatch(
-            addMemory({ ...payload, _id: response.data, user: auth.user._id })
-          );
-          closeModal();
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    } else {
-      try {
-        await axios.delete(BASE_URL + utils.payload._id);
-        dispatch(removeMemory(utils.payload._id));
-        closeModal();
-      } catch (error) {
-        console.log(error);
-      }
+  const patchMemory = async () => {
+    setLoading({ ...loading, update: true });
+    const payload = { title, description, image };
+    try {
+      await axios.patch(BASE_URL + utils.payload._id, payload);
+      dispatch(updateMemory({ _id: utils.payload._id, payload }));
+      closeModal();
+    } catch (error) {
+      setLoading({ ...loading, update: false });
+      console.log(error);
     }
   };
 
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
+  const deleteMemory = async () => {
+    setLoading({ ...loading, delete: true });
+    try {
+      await axios.delete(BASE_URL + utils.payload._id);
+      dispatch(removeMemory(utils.payload._id));
+      closeModal();
+    } catch (error) {
+      setLoading({ ...loading, delete: false });
+      console.log(error);
+    }
+  };
+
+  const postMemory = async () => {
+    setLoading({ ...loading, create: true });
+    let payload = { title, description, image };
+    try {
+      if (typeof image !== "string") {
+        const imageData = new FormData();
+        imageData.set("key", "418c7993a7a7adf16bbe1703fce77005");
+        imageData.append("image", image);
+        const imageResponse = await axios.post(
+          "https://api.imgbb.com/1/upload",
+          imageData,
+          { withCredentials: false }
+        );
+        payload.image = imageResponse.data.data.url;
+        const response = await axios.post(BASE_URL, payload);
+        dispatch(
+          addMemory({ ...payload, _id: response.data, user: auth.user._id })
+        );
+      }
+
+      closeModal();
+    } catch (error) {
+      setLoading({ ...loading, create: false });
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (submit === "Create") {
+      if (utils.payload) patchMemory();
+      else postMemory();
+    } else deleteMemory();
   };
 
   const handleFileRead = async (event) => {
     const file = event.target.files[0];
-    const base64 = await convertBase64(file);
-    setimage(base64);
-    return base64;
+    setimage(file);
+    return file;
   };
 
   const modalClick = (event) => {
@@ -131,19 +148,31 @@ const Modal = () => {
           {utils.payload && (
             <button
               type="submit"
+              disabled={loading.delete}
               className="button button__red"
               onClick={() => setsubmit("delete")}
             >
-              Delete
+              {loading.delete ? <LoadingButton /> : "Delete"}
             </button>
           )}
 
           <button
             type="submit"
+            disabled={loading.create || loading.update}
             className="button button__green"
-            onClick={() => setsubmit("add")}
+            onClick={() => setsubmit("Create")}
           >
-            {utils.payload ? "Update" : "Add"}
+            {utils.payload ? (
+              loading.update ? (
+                <LoadingButton />
+              ) : (
+                "Update"
+              )
+            ) : loading.create ? (
+              <LoadingButton />
+            ) : (
+              "Create"
+            )}
           </button>
         </div>
       </form>

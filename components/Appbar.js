@@ -50,6 +50,7 @@ const Appbar = () => {
         break;
       case "2":
         dispatch(delUser());
+        router.replace("/");
         break;
 
       default:
@@ -73,14 +74,13 @@ const Appbar = () => {
             </button>
           </div>
         ) : (
-          <button className="button__primary">
-            <a
-              className="button button-appbar"
-              target="_blank"
-              href="https://auth.shanmukeshwar.me"
-            >
-              Login
-            </a>
+          <button
+            className="button__green"
+            onClick={() =>
+              window.open("https://auth.shanmukeshwar.me", "_blank")
+            }
+          >
+            Login
           </button>
         )}
       </div>
