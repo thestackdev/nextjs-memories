@@ -41,10 +41,29 @@ const Modal = () => {
 
   const closeModal = () => dispatch(delModal());
 
+  const uploadImage = async () => {
+    try {
+      const imageData = new FormData();
+      imageData.set("key", "418c7993a7a7adf16bbe1703fce77005");
+      imageData.append("image", image);
+      const imageResponse = await axios.post(
+        "https://api.imgbb.com/1/upload",
+        imageData,
+        { withCredentials: false }
+      );
+      return imageResponse.data.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const patchMemory = async () => {
     setLoading({ ...loading, update: true });
-    const payload = { title, description, image };
+    let payload = { title, description, image };
     try {
+      if (typeof image !== "string") {
+        payload.image = await uploadImage();
+      }
       await axios.patch(BASE_URL + utils.payload._id, payload);
       dispatch(updateMemory({ _id: utils.payload._id, payload }));
       closeModal();
@@ -70,21 +89,9 @@ const Modal = () => {
     setLoading({ ...loading, create: true });
     let payload = { title, description, image };
     try {
-      if (typeof image !== "string") {
-        const imageData = new FormData();
-        imageData.set("key", "418c7993a7a7adf16bbe1703fce77005");
-        imageData.append("image", image);
-        const imageResponse = await axios.post(
-          "https://api.imgbb.com/1/upload",
-          imageData,
-          { withCredentials: false }
-        );
-        payload.image = imageResponse.data.data.url;
-        const response = await axios.post(BASE_URL, payload);
-        dispatch(
-          addMemory({ ...payload, _id: response.data, user: auth.user._id })
-        );
-      }
+      payload.image = await uploadImage();
+      const response = await axios.post(BASE_URL, payload);
+      dispatch(addMemory({ ...response.data, user: auth.user._id }));
 
       closeModal();
     } catch (error) {
